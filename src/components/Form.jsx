@@ -20,13 +20,39 @@ function Form() {
       clearInputFields();
     } else {
       setMealText(editItem.name);
-      setCaloriesText(editItem.calories);
+      // this should be a string not numeric
+      setCaloriesText(editItem.calories.toString());
     }
   }, [editItem]);
 
+  // Clears all the fields
   const clearInputFields = () => {
     setMealText('');
     setCaloriesText('');
+  };
+
+  // Shows an alert message if one of fields or all fields is empty
+  const areEmptyFields = () => {
+    console.log(typeof caloriesText);
+    if (!(mealText.trim().length === 0) && !(caloriesText.trim().length === 0))
+      return false;
+
+    setAlert({ message: 'Please fill all the fields!', color: 'danger' });
+    setTimeout(() => setAlert({}), 3000);
+    return true;
+  };
+
+  // Shows an alert message if the calories field contains letters
+  const isNumericValue = () => {
+    if (caloriesText.match(/^[0-9]+$/)) return true;
+
+    setAlert({
+      message: 'Please use only numeric values in calories field!',
+      color: 'danger',
+    });
+    setTimeout(() => setAlert({}), 3000);
+    setCaloriesText('');
+    return false;
   };
 
   const handleSubmit = (e) => {
@@ -41,21 +67,9 @@ function Form() {
       return;
     }
 
-    if (mealText.trim().length === 0 || caloriesText.trim().length === 0) {
-      setAlert({ message: 'Please fill all the fields!', color: 'danger' });
-      setTimeout(() => setAlert({}), 3000);
-      return;
-    }
+    if (areEmptyFields()) return;
 
-    if (!caloriesText.match(/^[0-9]+$/)) {
-      setAlert({
-        message: 'Please use only numeric values in calories field!',
-        color: 'danger',
-      });
-      setTimeout(() => setAlert({}), 3000);
-      setCaloriesText('');
-      return;
-    }
+    if (!isNumericValue()) return;
 
     // Update case
     if (editItem.edit) {
