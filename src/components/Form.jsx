@@ -32,7 +32,6 @@ function Form() {
 
   // Shows an alert message if one of fields or all fields is empty
   const areEmptyFields = () => {
-    console.log(typeof caloriesText);
     if (!(mealText.trim().length === 0) && !(caloriesText.trim().length === 0))
       return false;
 
