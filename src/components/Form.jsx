@@ -20,7 +20,6 @@ function Form() {
       clearInputFields();
     } else {
       setMealText(editItem.name);
-      // this should be a string not numeric
       setCaloriesText(editItem.calories.toString());
     }
   }, [editItem]);
